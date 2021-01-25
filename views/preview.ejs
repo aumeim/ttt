@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PREVIEW</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300&family=Mitr:wght@600&family=Pattaya&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel='stylesheet' href='/stylesheets/stylepv.css' />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<style>
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        #DivButt,
+        #pre {
+            display: none;
+        }
+
+        #canvas,
+        #cancas * {
+            visibility: visible;
+        }
+
+        #canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+</style>
+
+
+<body class="body2">
+    <% var data=picdata[0].dataURL; %>
+        <% var x=10; %>
+            <br>
+            <div class="w3-padding-16 fontbutt3">
+                <h1 class="h1pre" id="pre">PREVIEW</h1>
+            </div>
+
+            <div class="sticky2">
+                <canvas class="topfixed" id="canvas" name="canvas" height="640px" width="480px"></canvas>
+     </div>
+
+
+            <div class="downfixed">
+                <div style="text-align: center;" id="DivButt">
+                    <input class="button1 fontbutt3" type="submit" value="Print" id="submit" onclick="">
+                    <input class="button3 fontbutt3" id="b" type="button" value="Download" onclick="pic()">
+                    <input class="button4 fontbutt3" type="button" value="Finish" onclick="index()">
+                </div>
+
+            </div>
+
+            <script src="/javascripts/fabric.min.js"></script>
+            <script src="/javascripts/require.js"></script>
+
+            <script>
+                var getdata = "<%= data %>"; // กำหนดให้ตัวแปรนิ แล้วเอาไปใช้ได้
+                var dataURL = getdata;
+                var getdata_print = "<%= data %>";
+                let getdata_print2 = getdata_print.split(';base64,').pop(); //เอาเฮดเดอร์ออก
+                const canvas = new fabric.Canvas('canvas');
+                /*canvas.width = window.innerWidth * .8;
+                canvas.height = window.innerHeight * .8;*/
+
+
+                canvas.setZoom(0.5);
+        /*canvas.width = window.innerWidth * .8;
+        canvas.height = window.innerHeight * .8;*/
+
+
+        fabric.Image.fromURL(getdata, (img) => {
+            img.scaleToHeight(640);
+            img.scaleToWidth(480);
+            canvas.backgroundImage = img;
+            canvas.renderAll();
+        })
+
+                async function index() {
+                    var x = 7;
+                    const data = { x };
+                    console.log(data);
+
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    };
+
+                    const data2 = { dataURL: "7" };//เอาไว้ให้กระจกเปลี่ยนหน้า
+                    const options2 = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data2)
+                    };
+
+                    const res = await fetch('/upcheck', options);
+                    const json = await res.json();
+                    const res2 = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options2); //ส่งค่าเอ้กไปให้showแล้วให้กลับไปหน้าcamwait
+                    const json2 = await res2.json();
+                    await opening();
+                    function opening() { window.location.replace("/thanks") };
+
+                }
+                //const { PosPrinter } = require("electron-pos-printer");
+                //const path = require("path");
+
+                const options = {
+                    preview: false,               // Preview in window or print
+                    width: '170px',               //  width of content body
+                    margin: '0 0 0 0',            // margin of content body
+                    copies: 1,                    // Number of copies to print
+                    printerName: 'Canon iP200 series',        // printerName: string, check with webContent.getPrinters()
+                    timeOutPerLine: 400,
+                    pageSize: { height: 301000, width: 71000 }  // page size
+                }
+
+                const data = [
+                    {
+                        type: 'text',                                       // 'text' | 'barCode' | 'qrCode' | 'image' | 'table
+                        value: 'eeeeeeeeeeheretooooooooooo',
+                        style: 'text-align:center;',
+                        css: { "font-weight": "700", "font-size": "18px" }
+                    }, {
+                        type: 'qrCode',
+                        value: 'https://github.com/Hubertformin/electron-pos-printer',
+                        height: 55,
+                        width: 55,
+                        style: 'margin: 10 20px 20 20px'
+                    },
+                ]
+                const snap = document.getElementById('test');
+                test.addEventListener("click", async event => {
+                    //function printpic() {
+                    //window.print();
+                    //window.onload = function() { window.print(); }
+                    var x = 8;
+                    const data = { x };
+
+                    console.log(data);
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    };
+
+                    const res = await fetch('/upcheck', options);
+                    const json = await res.json();
+                });
+
+                function pic() {
+                    canvas.setZoom(1);
+                    if (window.navigator.msSaveBlob) {
+                        window.navigator.msSaveBlob(canvas.msToBlob(), "aaa.png");
+
+                    }
+                    else {
+                        const a = document.createElement("a");
+
+                        document.body.appendChild(a);
+                        a.href = canvas.toDataURL();
+                        a.download = "aaa.png";
+                        a.click();
+                        document.body.removeChild(a);
+                    }
+                }
+            </script>
+</body>
+
+</html>

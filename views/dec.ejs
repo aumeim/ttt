@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Stickers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300&family=Mitr:wght@600&family=Pattaya&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Hachi+Maru+Pop&display=swap"
+        rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial;
+        }
+
+        
+    </style>
+</head>
+
+<body class="body" onresize="re()">
+    <div class="sticky">
+        <div class="d-flex justify-content-between" style="background-color: #ffdc7c;">
+            <a class="butt2 fontbutt2 nontx-dec" href="/camera">Back</a>
+            <button id="willdraw" class="drawbutt" onclick="hidesticker()"><img width="23px" height="23px"
+                    src="https://test-so-complicated.herokuapp.com/PNG/Bear Emoji.png"></button>
+            <div id="hide" style="display:none">
+                <button class="drawbut" onclick="drawend('n')"><img
+                        src="https://test-so-complicated.herokuapp.com/images/no-stopping.png"></button>
+                <button class="drawbut" onclick="undo()"><img src="https://test-so-complicated.herokuapp.com/icon/un.png"></button>
+                <button class="drawbut" onclick="redo()" style="transform: scaleX(-1);"><img
+                        src="https://test-so-complicated.herokuapp.com/icon/un.png"></button>
+                <button class="drawbut" onclick="drawend('y')"><img src="https://test-so-complicated.herokuapp.com/images/yy.png"></button>
+            </div>
+
+            <input type="submit" value="Submit" id="submit" class="right butt3 fontbutt3" onclick="prev()">
+        </div>
+        <h2 id="text1" align="center">Choose your stickers</h2>
+        <h2 id="text2" align="center" style="display:none">Drawing here</h2>
+    </div>
+    <div class="sticky2">
+        <canvas class="topfixed" id="canvas" name="canvas" height="640px" width="480px"></canvas>
+
+    </div>
+
+    <% var data=picdata[0].dataURL; %>
+
+
+        <div class="downfixed">
+            <div id="sticker">
+                <div class="tabfixed">
+                    <div class="tab">
+                        <button class="tablinks" onclick="openCity(event, 'All')" id="defaultOpen"
+                            style="color:white">All</button>
+                        <button class="tablinks" onclick="openCity(event, 'heart')" id="defaultOpen"><img width="23px"
+                                height="23px" src="https://test-so-complicated.herokuapp.com/PNG/Growing Pink Heart Emoji.png"></button>
+                        <button class="tablinks" onclick="openCity(event, 'emoji')" id="defaultOpen"><img width="23px"
+                                height="23px"
+                                src="https://test-so-complicated.herokuapp.com/PNG/Smiling Face Emoji with Blushed Cheeks.png"></button>
+                        <button class="tablinks" onclick="openCity(event, 'food')" id="defaultOpen"><img width="23px"
+                                height="23px" src="https://test-so-complicated.herokuapp.com/PNG/Strawberry Cake Emoji.png"></button>
+                        <button class="tablinks" onclick="openCity(event, 'sweet')" id="defaultOpen"><img width="23px"
+                                height="23px" src="https://test-so-complicated.herokuapp.com/PNG/ma.png"></button>
+                        <button class="tablinks" onclick="openCity(event, 'animal')" id="defaultOpen"><img width="23px"
+                                height="23px" src="https://test-so-complicated.herokuapp.com/PNG/Bear Emoji.png"></button>
+                        <button class="tablinks" onclick="openCity(event, 'flower')" id="defaultOpen"><img width="23px"
+                                height="23px" src="https://test-so-complicated.herokuapp.com/PNG/Bear Emoji.png"></button>
+                        <button class="tablinks" onclick="openCity(event, 'party')" id="defaultOpen"><img width="23px"
+                                height="23px" src="https://test-so-complicated.herokuapp.com/PNG/Bear Emoji.png"></button>
+                        <button class="tablinks" onclick="openCity(event, 'quote')" id="defaultOpen"><img width="23px"
+                                height="23px" src="https://test-so-complicated.herokuapp.com/PNG/Bear Emoji.png"></button>
+                        <button class="tablinks" onclick="openCity(event, 'head')" id="defaultOpen"><img width="23px"
+                                height="23px" src="https://test-so-complicated.herokuapp.com/PNG/Bear Emoji.png"></button>
+                        <button class="tablinks" onclick="openCity(event, 'timeday')" id="defaultOpen"><img width="23px"
+                                height="23px" src="https://test-so-complicated.herokuapp.com/PNG/happyday.png"></button>
+                        <button class="tablinks" onclick="openCity(event, 'text')" id="defaultOpen"
+                            style="color:white">Tokyo</button>
+                    </div>
+
+                </div>
+                <div id="All" class="tabcontent back">
+                    <div class="myGallery">
+                        <img id="clear" type="image" src="https://test-so-complicated.herokuapp.com/images/no-stopping.png"
+                            onclick="fncClear()">
+                        <% for(var i=0; i < png.length; i++) { if(png[i].types !=="none" ){ %>
+                            <img id="fncAdd" type="image" src="https://test-so-complicated.herokuapp.com/PNG/<%= png[i].name %>"
+                                onclick="fncAdd('<%= png[i].name %>')">
+                            <% }} %>
+                    </div>
+                </div>
+                <div id="heart" class="tabcontent back">
+                    <div class="myGallery">
+                        <img id="clear" type="image" src="https://test-so-complicated.herokuapp.com/images/no-stopping.png"
+                            onclick="fncClear()">
+                        <% for(var i=0; i < png.length; i++) { if(png[i].types=="heart" ){ %>
+                            <img id="fncAdd" type="image" src="https://test-so-complicated.herokuapp.com/PNG/<%= png[i].name %>"
+                                onclick="fncAdd('<%= png[i].name %>')">
+                            <% }} %>
+                    </div>
+                </div>
+                <div id="emoji" class="tabcontent back">
+                    <div class="myGallery">
+                        <img id="clear" type="image" src="https://test-so-complicated.herokuapp.com/images/no-stopping.png"
+                            onclick="fncClear()">
+                        <% for(var i=0; i < png.length; i++) { if(png[i].types=="emoji" ){ %>
+                            <img id="fncAdd" type="image" src="https://test-so-complicated.herokuapp.com/PNG/<%= png[i].name %>"
+                                onclick="fncAdd('<%= png[i].name %>')">
+                            <% }} %>
+                    </div>
+                </div>
+                <div id="food" class="tabcontent back">
+                    <div class="myGallery">
+                        <img id="clear" type="image" src="https://test-so-complicated.herokuapp.com/images/no-stopping.png"
+                            onclick="fncClear()">
+                        <% for(var i=0; i < png.length; i++) { if(png[i].types=="food" ){ %>
+                            <img id="fncAdd" type="image" src="https://test-so-complicated.herokuapp.com/PNG/<%= png[i].name %>"
+                                onclick="fncAdd('<%= png[i].name %>')">
+                            <% }} %>
+                    </div>
+                </div>
+                <div id="sweet" class="tabcontent back">
+                    <div class="myGallery">
+                        <img id="clear" type="image" src="https://test-so-complicated.herokuapp.com/images/no-stopping.png"
+                            onclick="fncClear()">
+                        <% for(var i=0; i < png.length; i++) { if(png[i].types=="sweet" ){ %>
+                            <img id="fncAdd" type="image" src="https://test-so-complicated.herokuapp.com/PNG/<%= png[i].name %>"
+                                onclick="fncAdd('<%= png[i].name %>')">
+                            <% }} %>
+                    </div>
+                </div>
+                <div id="timeday" class="tabcontent back">
+
+                    <img id="clear" type="image" src="https://test-so-complicated.herokuapp.com/images/no-stopping.png"
+                        onclick="fncClear()">
+
+                    <a id="time" onclick="fncAddtime(1)"
+                        style="font-family: 'digital-7'; color: white; font-size: 10vw; padding-left: 30px;">00:00</a>
+                    <a id="date" onclick="fncAddtime(2)"
+                        style="font-family: 'Yanone Kaffeesatz'; color: black; font-size: 10vw; padding-left: 30px; ">1
+                        Jan 2020</a>
+                    <% for(var i=0; i < png.length; i++) { if(png[i].types=="timeday" ){ %>
+                        <img id="fncAdd" type="image" width="90" height="auto"
+                            src="https://test-so-complicated.herokuapp.com/PNG/<%= png[i].name %>" onclick="fncAdd('<%= png[i].name %>')">
+                        <% }} %>
+
+
+
+                </div>
+                <div id="text" class="tabcontent back">
+                    <img id="clear" type="image" src="https://test-so-complicated.herokuapp.com/images/no-stopping.png"
+                        onclick="fncClear()">
+                    <button type="button" onclick="colorf('black')" style="background-color: black;"> </button>
+                    <button type="button" onclick="colorf('red')" style="background-color: red;"> </button>
+                    <button type="button" onclick="colorf('green')" style="background-color: green;"> </button>
+
+                    <h3 id="f1" onclick="fncf(1)" style="font-family: 'Yanone Kaffeesatz' ;">Yanone Kaffeesatz</h3>
+                    <h3 id="f2" onclick="fncf(2)" style="font-family: 'Hachi Maru Po';">Hachi Maru Pop</h3>
+                    <h3 id="f3" onclick="fncf(3)" style="font-family: 'Dancing Script';">Dancing Script</h3>
+                    <br>
+                </div>
+
+
+
+
+                <script> //ตรงแถบเมนูด้านล่างเฉยๆ 
+                    function openCity(evt, cityName) {
+                        var i, tabcontent, tablinks;
+                        tabcontent = document.getElementsByClassName("tabcontent");
+                        for (i = 0; i < tabcontent.length; i++) {
+                            tabcontent[i].style.display = "none";
+                        }
+                        tablinks = document.getElementsByClassName("tablinks");
+                        for (i = 0; i < tablinks.length; i++) {
+                            tablinks[i].className = tablinks[i].className.replace(" active", "");
+                        }
+                        document.getElementById(cityName).style.display = "block";
+                        evt.currentTarget.className += " active";
+                    }
+
+                    // Get the element with id="defaultOpen" and click on it
+                    document.getElementById("defaultOpen").click();
+                </script>
+            </div>
+            <div id="draw" style="display:none">
+                <h1>draw</h1>
+                <div id="drawing-mode-options">
+                    <label for="drawing-color">Line color:</label>
+                    <input type="color" value="#005E7A" id="drawing-color"><br>
+                    <label for="drawing-shadow-color">Shadow color:</label>
+                    <input type="color" value="#005E7A" id="drawing-shadow-color"><br>
+                    <label for="drawing-line-width">Line width:</label>
+                    <span class="info">30 </span><input type="range" value="30" min="0" max="150"
+                        id="drawing-line-width"><br>
+                    <label for="drawing-shadow-width">Shadow width:</label>
+                    <span class="info">0 </span><input type="range" value="0" min="0" max="50"
+                        id="drawing-shadow-width"><br>
+                    <label for="drawing-shadow-offset">Shadow offset:</label>
+                    <span class="info">0 </span><input type="range" value="0" min="0" max="50"
+                        id="drawing-shadow-offset"><br>
+                </div>
+            </div>
+        </div>
+        <script src="/javascripts/fabric.min.js"></script>
+
+        <script>
+
+            var getdata = "<%= data %>"; // กำหนดให้ตัวแปรนิ แล้วเอาไปใช้ได้
+            const canvas = new fabric.Canvas('canvas');
+            var datetime = new Date();
+            time = ('0' + datetime.getHours()).substr(-2) + ":" + ('0' + datetime.getMinutes()).substr(-2)
+            var month_names_short = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            date = datetime.getDay() + " " + month_names_short[datetime.getMonth()] + " " + datetime.getFullYear();
+
+            document.getElementById('time').innerHTML = time;
+            document.getElementById('date').innerHTML = date;
+
+            fabric.Image.fromURL(getdata, (img) => {
+                img.scaleToHeight(640);
+                img.scaleToWidth(480);
+                canvas.backgroundImage = img;
+                canvas.renderAll();
+
+            })
+
+            re();
+            function re() {
+                if (window.innerHeight < 600) {
+                    canvas.setZoom(0.25);
+                }
+                else if (window.innerHeight < 700) {
+                    canvas.setZoom(0.30);
+                }
+                else if (window.innerHeight < 850) {
+                    canvas.setZoom(0.35);
+                }
+                else if (window.innerHeight < 1000) {
+                    canvas.setZoom(0.4);
+                }
+                else {
+                    canvas.setZoom(0.5);
+                }
+            }
+
+            function hidesticker() {
+                var x = document.getElementById("sticker");
+                var z = document.getElementById("willdraw");
+                var zz = document.getElementById("text1");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                    z.style.display = "block";
+                    zz.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                    z.style.display = "none";
+                    zz.style.display = "none";
+                }
+
+                var y = document.getElementById("draw");
+                var a = document.getElementById("hide");
+                var b = document.getElementById("text2");
+                if (y.style.display === "none") {
+                    y.style.display = "block";
+                    a.style.display = "block";
+                    b.style.display = "block";
+                    drawing();
+                } else {
+                    y.style.display = "none";
+                    a.style.display = "none";
+                    b.style.display = "none";
+                }
+
+            }
+
+            canvas.on('object:moving', function () {
+                console.log('Event object:modified Triggered');
+                setTimeout(async function up() {
+                    canvas.setZoom(1);
+                    var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+                    re();
+                    canvas.draw
+                    console.log(dataURL);
+                    const data = { dataURL };
+
+                    console.log(data);
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    };
+
+                    /*const res = await fetch('/deco', options);
+                    const json = await res.json();*/
+
+                    const res = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //แสดงเวลาเลือกกรอบรุป
+                    const json = await res.json();
+                }, 0);
+
+            });
+
+            canvas.on('object:modified', function () {
+                console.log('Event object:modified Triggered');
+                setTimeout(async function up() {
+                    canvas.setZoom(1);
+                    var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+                    re();
+                    canvas.draw
+                    console.log(dataURL);
+                    const data = { dataURL };
+
+                    console.log(data);
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    };
+
+                    /*const res = await fetch('/deco', options);
+                    const json = await res.json();*/
+
+                    const res = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //แสดงเวลาเลือกกรอบรุป
+                    const json = await res.json();
+                }, 0);
+
+            });
+
+            canvas.on('text:changed', onSelectionChanged);
+
+            var id_no;
+            var end_path;
+            var objList = [];
+            if (!id_no) { id_no = 0; }
+            if (!end_path) { end_path = 0; }
+            var unList = [];
+
+            canvas.on('path:created', function (e) {
+                id_no++;
+                e.path.id = id_no;
+                objList.push(id_no);
+                console.log(id_no);
+                setTimeout(async function up() {
+                    canvas.setZoom(1);
+                    var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+                    re();
+                    canvas.draw
+                    console.log(dataURL);
+                    const data = { dataURL };
+
+                    console.log(data);
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    };
+
+                    const res = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //แสดงเวลาเลือกกรอบรุป
+                    const json = await res.json();
+                }, 0);
+            });
+
+            function undo() {
+                var allObjects = canvas.getObjects().slice();
+
+                var someObjects = allObjects.filter(o => {
+                    return o.id >= id_no
+                })
+
+
+                someObjects.forEach(o => {
+                    unList.push({ object: o });
+                    canvas.remove(o);
+                });
+                objList.pop(id_no);
+                id_no--
+                console.log('edit');
+                setTimeout(async function up() {
+                    canvas.setZoom(1);
+                    var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+                    re();
+                    canvas.draw
+                    console.log(dataURL);
+                    const data = { dataURL };
+
+                    console.log(data);
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    };
+
+                    /*const res = await fetch('/deco', options);
+                    const json = await res.json();*/
+
+                    const res = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //แสดงเวลาเลือกกรอบรุป
+                    const json = await res.json();
+                }, 10);
+            }
+
+            function redo() {
+                var redoData = unList.pop();
+                canvas.add(redoData.object);
+                canvas.renderAll();
+
+
+                objList.push(id_no);
+                id_no++
+                console.log('edit');
+                setTimeout(async function up() {
+                    canvas.setZoom(1);
+                    var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+                    re();
+                    canvas.draw
+                    console.log(dataURL);
+                    const data = { dataURL };
+
+                    console.log(data);
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    };
+
+                    /*const res = await fetch('/deco', options);
+                    const json = await res.json();*/
+
+                    const res = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //แสดงเวลาเลือกกรอบรุป
+                    const json = await res.json();
+                }, 10);
+            }
+
+
+            function drawing() {
+
+                canvas.isDrawingMode = true;
+                canvas.freeDrawingBrush.color = "green";
+                canvas.freeDrawingBrush.width = 4;
+                canvas.freeDrawingBrush.id = 'drawer';
+            }
+
+            function drawend(x) {
+                var allObjects = canvas.getObjects().slice();
+
+                var someObjects = allObjects.filter(o => {
+                    return o.id >= end_path
+                })
+
+
+                someObjects.forEach(o => {
+                    canvas.remove(o);
+                });
+                if (x == 'y') {
+
+                    var group = new fabric.Group(someObjects);
+
+
+                    canvas.add(group);
+                    canvas.setActiveObject(group);
+
+                    canvas.renderAll();
+
+                }
+                setTimeout(async function up() {
+                    canvas.setZoom(1);
+                    var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+                    re();
+                    canvas.draw
+                    console.log(dataURL);
+                    const data = { dataURL };
+
+                    console.log(data);
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    };
+
+                    /*const res = await fetch('/deco', options);
+                    const json = await res.json();*/
+
+                    const res = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //แสดงเวลาเลือกกรอบรุป
+                    const json = await res.json();
+                }, 10);
+                canvas.isDrawingMode = false;
+                hidesticker();
+                end_path = id_no;
+            }
+
+            function onSelectionChanged() {
+                console.log('edit text');
+                setTimeout(async function up() {
+                    canvas.setZoom(1);
+                    var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+                    re();
+                    canvas.draw
+                    console.log(dataURL);
+                    const data = { dataURL };
+
+                    console.log(data);
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    };
+
+                    /*const res = await fetch('/deco', options);
+                    const json = await res.json();*/
+
+                    const res = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //แสดงเวลาเลือกกรอบรุป
+                    const json = await res.json();
+                }, 0);
+            }
+
+
+            var deleteIcon = "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Ebene_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='595.275px' height='595.275px' viewBox='200 215 230 470' xml:space='preserve'%3E%3Ccircle style='fill:%23F44336;' cx='299.76' cy='439.067' r='218.516'/%3E%3Cg%3E%3Crect x='267.162' y='307.978' transform='matrix(0.7071 -0.7071 0.7071 0.7071 -222.6202 340.6915)' style='fill:white;' width='65.545' height='262.18'/%3E%3Crect x='266.988' y='308.153' transform='matrix(0.7071 0.7071 -0.7071 0.7071 398.3889 -83.3116)' style='fill:white;' width='65.544' height='262.179'/%3E%3C/g%3E%3C/svg%3E";
+            var img = document.createElement('img');
+            img.src = deleteIcon;
+
+            fabric.Object.prototype.transparentCorners = false;
+            fabric.Object.prototype.cornerColor = '#B4CFEC';
+            fabric.Object.prototype.controls.deleteControl = new fabric.Control({
+                x: 0.5,
+                y: 0.5,
+                offsetY: 16,
+                cursorStyle: 'pointer',
+                mouseUpHandler: deleteObject,
+                render: renderIcon,
+                cornerSize: 15
+            });
+            fabric.Object.prototype.cornerSize = '8';
+
+
+            var fcolor = 'black';
+            function colorf(c) {
+                document.getElementById('f1').style.color = c; // forecolor
+                document.getElementById('f2').style.color = c; // forecolor
+                document.getElementById('f3').style.color = c; // forecolor
+                fcolor = c;
+            }
+
+            function fncf(a) {
+
+                if (a == 1) {
+                    var fonttext = 'Yanone Kaffeesatz';
+                }
+                else if (a == 2) {
+                    var fonttext = 'Hachi Maru Pop';
+                }
+                else if (a == 3) {
+                    var fonttext = 'Dancing Script';
+                }
+
+                var fffff = new fabric.IText('Add Text', {
+                    fontFamily: fonttext,
+                    fontSize: 100,
+                    fill: fcolor,
+                    left: 100,
+                    top: 100,
+                });
+
+                canvas.add(fffff);
+
+                canvas.setActiveObject(fffff);
+
+                setTimeout(async function up() {
+                    canvas.setZoom(1);
+                    var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+                    re();
+                    canvas.draw
+                    console.log(dataURL);
+                    const data = { dataURL };
+
+                    console.log(data);
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    };
+
+                    /*const res = await fetch('/deco', options);
+                    const json = await res.json();*/
+
+                    const res = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //แสดงเวลาเลือกกรอบรุป
+                    const json = await res.json();
+                }, 10);
+
+
+            }
+
+            function deleteObject(eventData, target) {
+                var canvas = target.canvas;
+                canvas.remove(target);
+                canvas.requestRenderAll();
+                setTimeout(async function up() {
+                    canvas.setZoom(1);
+                    var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+                    re();
+                    canvas.draw
+                    console.log(dataURL);
+                    const data = { dataURL };
+
+                    console.log(data);
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    };
+
+                    /*const res = await fetch('/deco', options);
+                    const json = await res.json();*/
+
+                    const res = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //แสดงเวลาเลือกกรอบรุป
+                    const json = await res.json();
+                }, 0);
+            }
+
+            function renderIcon(ctx, left, top, styleOverride, fabricObject) {
+                var size = this.cornerSize;
+                ctx.save();
+                ctx.translate(left, top);
+                ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+                ctx.drawImage(img, -size / 2, -size / 2, size, size);
+                ctx.restore();
+            }
+
+            function fncAdd(name) {
+                console.log(name);
+                if (name == 'happyday.png') {
+                    fncAddtime(name);
+                }
+                else {
+                    fabric.Image.fromURL('https://test-so-complicated.herokuapp.com/PNG/' + name, function (myImg) {
+                        //  var img1 = 
+                        myImg.set({
+                            left: 0,
+                            top: 0,
+                            scaleX: 200 / myImg.width,
+                            scaleY: 200 / myImg.width,
+                        });
+
+                        canvas.add(myImg);
+                        canvas.setActiveObject(myImg);
+                    });
+
+                    canvas.on('mouse:down', function (event) {
+                        if (canvas.getActiveObject()) {
+                            //alert(event.target);
+                        }
+
+                    })
+
+                }
+                setTimeout(async function up() {
+                    canvas.setZoom(1);
+                    var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+                    re();
+                    canvas.draw
+                    console.log(dataURL);
+                    const data = { dataURL };
+
+                    console.log(data);
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    };
+
+                    /*const res = await fetch('/deco', options);
+                    const json = await res.json();*/
+
+                    const res = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //แสดงเวลาเลือกกรอบรุป
+                    const json = await res.json();
+                }, 10);
+
+            }
+
+            function fncAddtime(x) {
+                if (x == 1) {
+                    var datetime = new Date();
+                    datetime = ('0' + datetime.getHours()).substr(-2) + ":" + ('0' + datetime.getMinutes()).substr(-2)
+                    console.log(datetime);
+                    var helloWorld = new fabric.Text(datetime, {
+
+                        top: 0,
+                        left: 0,
+                        fontSize: 100,
+                        textAlign: 'center',
+                        fontFamily: 'digital-7',
+                        fill: 'white',
+
+                    });
+
+                    canvas.add(helloWorld);
+                    canvas.setActiveObject(helloWorld);
+                }
+
+                else if (x == 2) {
+                    var datetime = new Date();
+                    var month_names_short = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    datetime = datetime.getDay() + " " + month_names_short[datetime.getMonth()] + " " + datetime.getFullYear();
+                    console.log(datetime);
+
+
+                    var helloWorld = new fabric.Text(datetime, {
+
+                        top: 0,
+                        left: 0,
+                        fontSize: 100,
+                        textAlign: 'center',
+                        fontFamily: 'Yanone Kaffeesatz',
+                        fill: 'black',
+
+                    });
+
+                    // canvas.add(helloWorld);
+
+
+
+                    /*   var rect = new fabric.Rect({
+                           top: 0,
+                           left: 0,
+                           width: 100,
+                           height: 50,
+                           fill: 'red'
+                       });*/
+
+                    //  canvas.add(rect);
+                    /*    fabric.Image.fromURL('https://test-so-complicated.herokuapp.com/PNG/IMG_0531-1.png', function (myImg) {
+                            var img1 = myImg.set({ left: 0, top: 50, });
+                            var group = new fabric.Group([rect, helloWorld, img1], {
+                                left: 150,
+                                top: 100,
+                            });
+    
+                            canvas.add(group);
+                            canvas.setActiveObject(group);
+                        });
+    */
+                    canvas.add(helloWorld);
+                    canvas.setActiveObject(helloWorld);
+                }
+                else if (x == 'happyday.png') {
+                    var datetime = new Date();
+                    var weekday = new Array(7);
+                    weekday[0] = "Sunday";
+                    weekday[1] = "Monday";
+                    weekday[2] = "Tuesday";
+                    weekday[3] = "Wednesday";
+                    weekday[4] = "Thursday";
+                    weekday[5] = "Friday";
+                    weekday[6] = "Saturday";
+
+                    var datetime = weekday[datetime.getDay()];
+                    //  datetime = datetime.getHours() + ":" + datetime.getMinutes() + ":" + datetime.getSeconds()
+
+                    console.log(datetime);
+
+                    var helloWorld = new fabric.Text(datetime, {
+
+                        top: 150,
+                        left: 18,
+                        fontSize: 50,
+                        textAlign: 'center',
+                        fontFamily: 'Caveat',
+                        fill: '#ea8225',
+
+                    });
+                    fabric.Image.fromURL('https://test-so-complicated.herokuapp.com/PNG/happyday1.png', function (myImg) {
+                        var img1 = myImg.set({ left: 0, top: 50, width: 200, height: 200 });
+                        var group = new fabric.Group([img1, helloWorld], {
+                            left: 150,
+                            top: 100,
+                        });
+
+                        canvas.add(group);
+                        canvas.setActiveObject(group);
+                    });
+                }
+
+
+                setTimeout(async function up() {
+                    canvas.setZoom(1);
+                    var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+                    re();
+                    canvas.draw
+                    console.log(dataURL);
+                    const data = { dataURL };
+
+                    console.log(data);
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    };
+
+                    /*const res = await fetch('/deco', options);
+                    const json = await res.json();*/
+
+                    const res = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //แสดงเวลาเลือกกรอบรุป
+                    const json = await res.json();
+                }, 10);
+
+
+            }
+
+            function fncClear() {
+                //canvas.dispose();
+                //canvas.remove(canvas.getObjects());
+                canvas.remove.apply(canvas, canvas.getObjects()); //ลบออบเจ้คออกทั้งหมด
+            }
+
+
+
+            async function prev() {
+                canvas.setZoom(1);
+                var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+                canvas.draw
+                console.log(dataURL);
+                const data = { dataURL };
+
+                console.log(data);
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                };
+
+                const res = await fetch('/print1', options);
+                const json = await res.json();
+                const res2 = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //แสดงรูป
+                const json2 = await res2.json();
+                await setTimeout(function opening() { window.location.replace("/preview") }, 500);//opening();//รอผลแล้วค่อยรี
+
+
+            };
+
+
+            var $ = function (id) { return document.getElementById(id) };
+
+            fabric.Object.prototype.transparentCorners = false;
+            var drawingColorEl = document.getElementById('drawing-color'),
+                drawingShadowColorEl = document.getElementById('drawing-shadow-color'),
+                drawingLineWidthEl = document.getElementById('drawing-line-width'),
+                drawingShadowWidth = document.getElementById('drawing-shadow-width'),
+                drawingShadowOffset = document.getElementById('drawing-shadow-offset');
+
+
+            drawingColorEl.onchange = function () {
+                canvas.freeDrawingBrush.color = this.value;
+            };
+            drawingShadowColorEl.onchange = function () {
+                canvas.freeDrawingBrush.shadow.color = this.value;
+            };
+            drawingLineWidthEl.onchange = function () {
+                canvas.freeDrawingBrush.width = parseInt(this.value, 10) || 1;
+                this.previousSibling.innerHTML = this.value;
+            };
+            drawingShadowWidth.onchange = function () {
+                canvas.freeDrawingBrush.shadow.blur = parseInt(this.value, 10) || 0;
+                this.previousSibling.innerHTML = this.value;
+            };
+            drawingShadowOffset.onchange = function () {
+                canvas.freeDrawingBrush.shadow.offsetX = parseInt(this.value, 10) || 0;
+                canvas.freeDrawingBrush.shadow.offsetY = parseInt(this.value, 10) || 0;
+                this.previousSibling.innerHTML = this.value;
+            };
+            if (canvas.freeDrawingBrush) {
+                canvas.freeDrawingBrush.color = drawingColorEl.value;
+                canvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.value, 10) || 1;
+                canvas.freeDrawingBrush.shadow = new fabric.Shadow({
+                    blur: parseInt(drawingShadowWidth.value, 10) || 0,
+                    offsetX: 0,
+                    offsetY: 0,
+                    affectStroke: true,
+                    color: drawingShadowColorEl.value,
+                });
+            }
+
+
+        </script>
+</body>
+
+</html>

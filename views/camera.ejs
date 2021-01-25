@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<haed>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: black;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        video {
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+        }
+    </style>
+
+</haed>
+
+<body>
+    <div class="video-wrap">
+        <video id="video" playinline autoplay></video>
+        <canvas id="canvas"></canvas>
+    </div>
+</body>
+<script>
+
+    'use strict';
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+
+    const snap = document.getElementById('snap');
+
+    const errorMsgElement = document.getElementById('spanErrorMsg');
+    var hhh = 400;
+    var www = 300;
+
+    var constraints = {
+        audio: false,
+        video: {
+            width: 300, height: 400
+        }
+    };
+
+    async function init() {
+        try {
+            const straem = await navigator.mediaDevices.getUserMedia(constraints);
+            handleSuccess(straem);
+        }
+        catch (e) {
+            errorMsgElement.innerHTML = 'navigator.getUserMedia.error:${e.toString()}';
+
+        }
+    }
+
+    function handleSuccess(stream) {
+        window.stream = stream;
+        video.srcObject = stream;
+
+    }
+
+    init();
+    var context = canvas.getContext('2d');
+    setTimeout(async function takephoto() {
+            canvas.width = www;
+            canvas.height = hhh;
+            context.translate(www, 0);
+            context.scale(-1, 1);
+            context.drawImage(video, 0, 0, www, hhh);
+            var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+            console.log(dataURL);
+
+            const data = { dataURL }; //ค่ารูป
+
+            console.log(data);
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            };
+            const res = await fetch('/users/api', options); //บันทึกลงdb
+            const json = await res.json();
+            const res2 = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //ส่งค่ารูปไปให้showแสดง
+          //  const res2 = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //ส่งค่ารูปไปให้showแสดง
+            const json2 = await res2.json();
+            await opening();
+            function opening(){window.location.replace("/users/show")}; //อเวทรอผลก่อนค่อยรีไปหน้า show
+    },3000);
+
+  
+</script>
+
+
+</html>

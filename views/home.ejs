@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<!-- change to index -->
+<head>
+    <title>HOME</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300&family=Mitr:wght@600&family=Pattaya&display=swap"
+        rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+</head>
+
+<body class="body1">
+    <div class="boxcen">
+        <div class="con">
+            <h1 class="big">ยินดีต้อนรับเข้าสู่</h1>
+            <p class="bigger">Miracle Mirror</p>
+        </div>
+        <button class="butt1 fontbutt1" onclick="start()">
+            <p id="spanEl" class="fontbutt1">START</p>
+        </button>
+    </div>
+
+</body>
+<script>
+    async function start() {
+
+        var x = 9;
+                const data = { x };
+                console.log(data);
+                
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                };
+
+                const res = await fetch('/upcheck', options);
+                const json = await res.json();
+                await  opening();//รอผลแล้วค่อยรี
+
+            function opening(){window.location.replace("/cam")};
+        
+     }
+
+    const spanEl = document.querySelector('#spanEl');
+    var interval = setInterval(function () {
+        spanEl.style.visibility = spanEl.style.visibility === "hidden" ? 'visible' : 'hidden';
+    }, 250);
+</script>
+
+</html>

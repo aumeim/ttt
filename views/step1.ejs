@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Choose Frame</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300&family=Mitr:wght@600&family=Pattaya&display=swap"
+        rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+        canvas {
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body class="body2">
+    <div class="boxcen">
+        <canvas id="mycanvas" width="400" height="400"></canvas>
+    </div>
+
+</body>
+<script>
+    var canvas = document.getElementById("mycanvas");
+    var context = canvas.getContext("2d");
+    context.rotate(-5 * Math.PI / 180);
+    context.beginPath();
+    context.rect(250, 90, 130, 40);
+    context.fillStyle = "#e4fde1";
+    context.shadowColor = '#e4fde1'; //เงา
+    context.shadowBlur = 20;
+    context.shadowOffsetX = 5;
+    context.shadowOffsetY = 5;
+    context.fill();
+
+    context.fillStyle = '#6da292';
+    context.font = 'bold 30px Courier ';
+    context.shadowColor = 'transparent';
+    context.shadowBlur = 0;
+    context.shadowOffsetX = 0;
+    context.shadowOffsetY = 0;
+    context.fillText(`Step1`, 275, 115);
+
+    context.lineWidth = 7;
+    context.setTransform(1, 0, 0, 1, 0, 0); //ไม่ให้หลังจากนี้เอียง
+    context.fillStyle = '#dd614a';
+    context.font = '80px Pattaya';
+    context.shadowColor = 'transparent';
+    context.shadowBlur = 0;
+    context.shadowOffsetX = 0;
+    context.shadowOffsetY = 0;
+    context.fillText(`Choose`, 50, 160);
+
+    context.fillStyle = '#ff9d71';
+    context.font = '80px Pattaya';
+    context.shadowColor = 'transparent';
+    context.shadowBlur = 0;
+    context.shadowOffsetX = 0;
+    context.shadowOffsetY = 0;
+    context.fillText(`Frame`, 145, 220);
+
+    setTimeout(function opening(){window.location.replace("/frame")},3000);
+</script>
+
+</html>

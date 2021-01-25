@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Real-time Pic | Show</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/socket.io-client@3.0.1/dist/socket.io.min.js"></script>
+  <style>
+    body{
+      background-color: black;
+    }
+  </style>
+</head>
+<body>
+  <div id="slide">
+  </div>
+  <img id="canvas" height="640px" width="480px" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxINEhUPEhAVFRUVFRUPFRcVFhUVFRUXFRUWFhUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMsNygtLisBCgoKBQUFDgUFDisZExkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIAKgBLAMBIgACEQEDEQH/xAAWAAEBAQAAAAAAAAAAAAAAAAAAAQf/xAAdEAEBAQEAAgMBAAAAAAAAAAAAAREhsfBBccEx/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AMNAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVAAAAAAAFQAAAAAFQAAAVAAAFQAAAVAAABUAAAAAAAAFBAAAAAAVFQAAAAAFBAAAAAAAAAABUAAAAAABRFAEAFRQEAFABAAVFQBUUBFQFEUEVAFEUAQBQQFQAUEAVFARUAWoAKAILAEUAQUAABBQBFARQARQEUAQUBFKAgoAikBBQBFARQARQEFKCKiggACooIKgKACAAqKgCooCKgCgCAoIoAgoAigIKgKigIqKAioAC0A0AAgCLoAIoAACClA1F+SAigAigBoAikADSgAAGgQBFKBoAIugAigItKUAAAIAAAAAAAAAAAAAIoAACKAAUAAAAgAAAAAAAABQoAGAQACnd98BgEAAIABQBe7/O/X4kMAAAAwAp3ffAYBAAKBgAABDAAoAd33wQwAAwCAAUoUAACAAHAAEAUAAQBeCAKAAIApwAAAKAAAAQABAFAAAAEAUoA//Z"></img>
+  <script type="text/javascript">
+
+    const socket = io();
+
+    socket.on('update slide', (data) => {
+      if(data == 5){
+        window.location.replace("/users/photo_png");
+      }
+      else if(data == 9){
+        window.location.replace("/users/camwait");
+      }
+      else if(data == 7){
+        window.location.replace("/users/thanks");
+      }
+      else{
+        document.querySelector("#canvas").src = data;
+      }
+      
+      })
+
+      
+  </script>
+</body>
+</html>

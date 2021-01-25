@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<!-- change 1-0 -->
+<head>
+    <title>Decor Sticker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300&family=Mitr:wght@600&family=Pattaya&display=swap"
+        rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <style>
+        canvas {
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body class="body2">
+    <div class="boxcen">
+        <h2 class="animate__animated animate__bounce animate__infinite	infinite thank ">Thanks for Using</h2>
+        <h1 class="magical">Miracle</h1>
+        <h1 class="animate__animated animate__flip animate__delay-2s mirror">Mirror</h1>
+      
+    </div>
+
+
+</body>
+<script>
+    var canvas = document.getElementById("mycanvas");
+
+    setTimeout(re(),3000);
+    
+    async function re() {
+        var x = 1;
+                const data = { x };
+                console.log(data);
+                
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                };
+
+                const res = await fetch('/upcheck', options);
+                const json = await res.json();
+               
+    }    
+</script>
+
+</html>

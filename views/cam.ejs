@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HOME</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300&family=Mitr:wght@600&family=Pattaya&display=swap"
+        rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+</head>
+
+<body class="body2">
+    <div class="boxcen">
+        <input id="snap" type="image" src="https://test-so-complicated.herokuapp.com/icon/shoot.png" width="90" height="90" onclick="shoot()">
+    
+   
+</div>
+
+   
+
+</body>
+<script>
+    async function shoot(){
+        var x = 2;
+            const data = { x };
+
+            console.log(data);
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            };
+
+            const res = await fetch('/upcheck', options);
+            const json = await res.json();
+            await setTimeout(opening() , 5000);
+
+         // function opening(){window.location.replace("/camwait")};
+            function opening() { window.location.replace("/cc") };
+    }
+
+    
+</script>
+</html>

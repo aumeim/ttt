@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Photo-PNG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300&family=Mitr:wght@600&family=Pattaya&display=swap"
+        rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .center {
+            width: 480px;
+            height: 640px;
+            margin: 0px auto;
+        }
+    </style>
+
+</head>
+
+<body class="body1">
+    <% var data = picdata[0].dataURL; %>
+    <div class="center">
+        <canvas id="canvas" name="canvas" width="480px" height="640px" class="canvas-container"></canvas></div>
+    <script src="/javascripts/fabric.min.js"></script>
+    <script>
+        var getdata = "<%= data %>"; // กำหนดให้ตัวแปรนิ แล้วเอาไปใช้ได้
+        const canvas = new fabric.Canvas('canvas');
+        console.log(getdata);
+        fabric.Image.fromURL(getdata, (img) => {
+            img.scaleToHeight(640);
+            img.scaleToWidth(480);
+            canvas.backgroundImage = img;
+            canvas.renderAll();
+        })
+        setTimeout(function opening(){window.location.replace("/users")},500);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PREVIEW</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300&family=Mitr:wght@600&family=Pattaya&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel='stylesheet' href='/stylesheets/stylepv.css' />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<style>
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        #DivButt,
+        #pre {
+            display: none;
+        }
+
+        #canvas,
+        #cancas * {
+            visibility: visible;
+        }
+
+        #canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+</style>
+
+
+<body class="body2">
+        <% var data=picdata[0].dataURL; %>
+            <% var x=10; %>
+    <br>
+    <div class="w3-padding-16 fontbutt3">
+        <h1 class="h1pre" id="pre">PREVIEW</h1>
+    </div>
+
+    <div class="sticky2">
+        <canvas class="topfixed" id="canvas" name="canvas" height="320px" width="240px"></canvas>
+    </div>
+
+
+    <script src="/javascripts/fabric.min.js"></script>
+    <script src="/javascripts/require.js"></script>
+    <script>setTimeout(function opening(){window.location.replace("/users")},1000);</script>
+
+    <script>
+        var getdata = "<%= data %>"; // กำหนดให้ตัวแปรนิ แล้วเอาไปใช้ได้
+        var dataURL = getdata;
+        var getdata_print = "<%= data %>";
+        let getdata_print2 = getdata_print.split(';base64,').pop(); //เอาเฮดเดอร์ออก
+        const canvas = new fabric.Canvas('canvas');
+        /*canvas.width = window.innerWidth * .8;
+        canvas.height = window.innerHeight * .8;*/
+
+
+        fabric.Image.fromURL(getdata, (img) => {
+            img.scaleToHeight(320);
+            img.scaleToWidth(240);
+            canvas.backgroundImage = img;
+            canvas.renderAll();
+        })
+    </script>
+</body>
+
+</html>

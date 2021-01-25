@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<haed>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: black;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+    </style>
+
+</haed>
+
+<body>
+    <h5 align="center">This is mirror</h5>
+
+
+</body>
+<script>
+    setTimeout(re(), 5000);
+
+    async function re() {
+        var x = 3;
+        const data = { x };
+        console.log(data);
+
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        };
+
+        const res = await fetch('/upcheck', options);
+        const json = await res.json();
+        await opening();//รอผลแล้วค่อยรี
+
+        function opening() { window.location.replace("/photo_ori") };
+    }   
+</script>
+
+</html>

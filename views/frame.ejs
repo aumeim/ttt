@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Frame</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300&family=Mitr:wght@600&family=Pattaya&display=swap"
+        rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        body {
+            font-family: Arial;
+        }
+
+        .tabfixed {
+            position: fixed;
+            width: 100%;
+        }
+
+        /* Style the tab */
+        /* .tab {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 47px;
+            background-color: #ffdc7c;
+        }*/
+        .tab {
+            /*   overflow: hidden;
+            
+            background-color: #ffdc7c;*/
+            background-color: #ffdc7c;
+            overflow: auto;
+            white-space: nowrap;
+
+        }
+
+
+        /* Style the buttons inside the tab */
+        /*  .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }*/
+        .tab button {
+            /* 
+            float: left;
+            
+            
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;*/
+            display: inline-block;
+            background-color: inherit;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            text-decoration: none;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+    </style>
+
+
+
+
+
+</head>
+
+<body class="body" onresize="re()">
+    <div class="sticky">
+        <div class="d-flex justify-content-between" style="background-color: #ffdc7c;">
+            <a class="butt2 fontbutt2 nontx-dec" href="/camera">Back</a>
+            <input type="submit" value="Submit" id="submit" class="right butt3 fontbutt3" onclick="decdec()">
+        </div>
+        <h5 align="center">Choose your frame</h5>
+
+    </div>
+
+    <div class="sticky2">
+        <canvas class="topfixed" id="canvas" name="canvas" height="640px" width="480px"></canvas>
+
+    </div>
+
+    <% var data=picdata[0].dataURL; %>
+
+        <div class="downfixed">
+            <div class="tabfixed">
+                <div class="tab">
+                    <button class="tablinks" onclick="openCity(event, 'All')" id="defaultOpen"
+                        style="color:white">All</button>
+                    <button class="tablinks" onclick="openCity(event, 'Paris')" id="defaultOpen"
+                        style="color:white">Paris</button>
+                    <button class="tablinks" onclick="openCity(event, 'Tokyo')" id="defaultOpen"
+                        style="color:white">Tokyo</button>
+                </div>
+            </div>
+            <div id="All" class="tabcontent back">
+                <div class="myGallery">
+                <img id="clear2" type="image" src="https://test-so-complicated.herokuapp.com/images/no-stopping.png" onclick="fncClear2()">
+                <% for(var i=0; i < frame.length; i++) { %>
+                    <img id="fncAdd2" type="image" src="https://test-so-complicated.herokuapp.com/frame/<%= frame[i].name %>"
+                        onclick="fncAdd2('<%= frame[i].name %>')">
+                    <% } %>
+                </div>
+            </div>
+            <div id="Paris" class="tabcontent back">
+                <h3>Paris</h3>
+                <p>Paris is the capital of France.</p>
+            </div>
+
+            <script> //ตรงแถบเมนูด้านล่างเฉยๆ
+                function openCity(evt, cityName) {
+                    var i, tabcontent, tablinks;
+                    tabcontent = document.getElementsByClassName("tabcontent");
+                    for (i = 0; i < tabcontent.length; i++) {
+                        tabcontent[i].style.display = "none";
+                    }
+                    tablinks = document.getElementsByClassName("tablinks");
+                    for (i = 0; i < tablinks.length; i++) {
+                        tablinks[i].className = tablinks[i].className.replace(" active", "");
+                    }
+                    document.getElementById(cityName).style.display = "block";
+                    evt.currentTarget.className += " active";
+                }
+
+                // Get the element with id="defaultOpen" and click on it
+                document.getElementById("defaultOpen").click();
+            </script>
+
+
+        </div>
+
+        <script src="/javascripts/fabric.min.js"></script>
+        <script>
+            var getdata = "<%= data %>"; // กำหนดให้ตัวแปรนิ แล้วเอาไปใช้ได้
+            const canvas = new fabric.Canvas('canvas');
+            console.log(getdata);
+            fabric.Image.fromURL(getdata, (img) => {
+                img.scaleToHeight(640);
+                img.scaleToWidth(480);
+                canvas.backgroundImage = img;
+                canvas.renderAll();
+
+            })
+            re();
+            function re() {
+                if (window.innerHeight < 600) {
+                    canvas.setZoom(0.25);
+                }
+                else if (window.innerHeight < 700) {
+                    canvas.setZoom(0.30);
+                }
+                else if (window.innerHeight < 850) {
+                    canvas.setZoom(0.35);
+                }
+                else if (window.innerHeight < 1000) {
+                    canvas.setZoom(0.4);
+                }
+                else {
+                    canvas.setZoom(0.5);
+                }
+            }
+
+
+
+
+
+
+
+            function fncAdd2(name) {
+                canvas.setOverlayImage('https://test-so-complicated.herokuapp.com/frame/' + name, canvas.renderAll.bind(canvas));
+
+                setTimeout(async function up() {
+                    canvas.setZoom(1);
+                    var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+                    re();
+                    canvas.draw
+                    console.log(dataURL);
+                    const data = { dataURL };
+
+                    console.log(data);
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    };
+
+                    /*const res = await fetch('/deco', options);
+                    const json = await res.json();*/
+
+                    const res = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //แสดงเวลาเลือกกรอบรุป
+                    const json = await res.json();
+                }, 10);
+
+
+            }
+
+            function fncClear2() { //ลบกรอบoverlay
+                canvas.setOverlayImage(null, canvas.renderAll.bind(canvas));
+                setTimeout(async function up() {
+                    var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+                    canvas.draw
+                    console.log(dataURL);
+                    const data = { dataURL };
+
+                    console.log(data);
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    };
+
+                    const res = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //แสดงเวลาเลือกกรอบรุป
+                    const json = await res.json();
+                }, 600);
+
+            }
+
+            async function decdec() { //ซับมิท
+                canvas.setZoom(1);
+                var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+                canvas.draw
+                console.log(dataURL);
+                const data = { dataURL };
+                console.log(data);
+
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                };
+                /*const res = await fetch('/print', options); //
+                const json = await res.json();*/
+
+                /*const data2 = {dataURL:"5"};//เอาไว้ให้กระจกเปลี่ยนหน้า
+                const options2 = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data2)
+                };*/
+                const res = await fetch('/deco', options);  //อัพลง
+                const json = await res.json();
+
+                const res2 = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options); //แสดงรูป
+                const json2 = await res2.json();
+                await opening();//รอผลแล้วค่อยรี
+                function opening() { window.location.replace("/step2") };
+
+            };
+
+        </script>
+</body>
+
+</html>

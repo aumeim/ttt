@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Photo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300&family=Mitr:wght@600&family=Pattaya&display=swap"
+        rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" />
+    <style type="text/css">
+        body {
+            background-color: #f1f2f6;
+            color: #222f3e;
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            font-size: 1.25em;
+            width: 100%;
+            margin: 0;
+        }
+
+        .center {
+            width: 480px;
+            height: 640px;
+            margin: 0px auto;
+        }
+
+        *:focus {
+            outline: none;
+        }
+
+        #submit-button{
+            cursor: pointer;
+        }
+
+        #submit-button:active{
+            opacity: 0.5;
+        }
+
+        #submit-button {
+            padding: 25px;
+            text-align: center;
+            margin: 0px 25px 25px 25px;
+            border-radius: 5px;
+            background-color: #01a3a4;
+            color: white;
+        }
+
+    </style>
+</head>
+
+<body>
+    <% var data=picdata[0].dataURL; %>
+        <div class="center">
+            <canvas id="canvas" name="canvas" height="640px" width="480px"></canvas>
+        </div>
+        <div id="submit-button" onclick="back()">แบ้ค</div>
+        <div id="submit-button" onclick="pick_frame()">b64</div>
+        <div id="deck"></div>
+        <script src="/javascripts/fabric.min.js"></script>
+        <script type="text/javascript">
+            var getdata = "<%= data %>"; // กำหนดให้ตัวแปรนิ แล้วเอาไปใช้ได้
+            const canvas = new fabric.Canvas('canvas');
+            console.log(getdata);
+            fabric.Image.fromURL(getdata, (img) => {
+                img.scaleToHeight(640);
+                img.scaleToWidth(480);
+                canvas.backgroundImage = img;
+                canvas.renderAll();
+            })
+
+            async function pick_frame() {
+
+                var dataURL = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream"); //แปลงเป็นbase64
+                canvas.draw
+                console.log(dataURL);
+                const data = { dataURL };
+
+                console.log(data);
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                };
+
+                const res = await fetch('https://test-so-complicated.herokuapp.com/api/updateSlide', options);
+                const json = await res.json();
+                await opening();//รอผลแล้วค่อยรี
+
+                function opening() { window.location.replace("/step1") };
+
+            }
+
+            </script>
+</body>
+
+</html>
